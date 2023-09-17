@@ -1,0 +1,30 @@
+{
+  "name": "caderneta-predial",
+  "version": "1.0.0",
+  "description": "Descarrega todas as tuas cadernetas prediais disponíveis no Portal das Finanças.",
+  "scripts": {
+    "test": "npx playwright test",
+    "testUi": "npx playwright test --ui"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rgl/caderneta-predial.git"
+  },
+  "keywords": [
+    "portaldasfinancas",
+    "caderneta-predial"
+  ],
+  "author": "Rui Lopes",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/rgl/caderneta-predial/issues"
+  },
+  "homepage": "https://github.com/rgl/caderneta-predial#readme",
+  "devDependencies": {
+    "@types/node": "^20.6.2"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.38.0",
+    "dotenv": "^16.3.1"
+  }
+}
