@@ -178,14 +178,14 @@ function getHtml(data: Data) {
     prediosHtml += `<td><a href="${he.encode(predio.pdfFilename)}">${he.encode(predio.alternateId)}</a></td>`;
     prediosHtml += `<td>${he.encode(predio.dataCaderneta)}</td>`;
     prediosHtml += `<td>${he.encode(predio.tipoDesc)}</td>`;
-    prediosHtml += `<td>${he.encode(predio.nomeFreguesia)}</td>`;
+    prediosHtml += `<td>${he.encode(toTitleCase(predio.nomeFreguesia))}</td>`;
     prediosHtml += '</tr>';
   }
   prediosHtml += '</table>';
   return `<!DOCTYPE html>
 <html>
   <head>
-    <title>${he.encode(data.name)} (${he.encode(data.nif)})</title>
+    <title>${he.encode(toTitleCase(data.name))} (${he.encode(data.nif)})</title>
     <style>
       body {
         font-family: 'DejaVu Sans Mono', monospace, sans-serif;
@@ -210,9 +210,18 @@ function getHtml(data: Data) {
     </style>
   </head>
   <body>
-    <h1>${he.encode(data.name)} (${he.encode(data.nif)})</h1>
+    <h1>${he.encode(toTitleCase(data.name))} (${he.encode(data.nif)})</h1>
     ${prediosHtml}
   </body>
 </html>
 `;
+}
+
+function toTitleCase(name: string): string {
+  return name.replace(/\w\S*/g, (word) => {
+    if (word.length <= 2) {
+      return word.toLowerCase();
+    }
+    return word.charAt(0).toUpperCase() + word.substring(1).toLowerCase();
+  });
 }
