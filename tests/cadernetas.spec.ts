@@ -96,7 +96,7 @@ test('cadernetas', async ({ page }) => {
 async function shouldDownload(filePath: string): Promise<boolean> {
   try {
     const stats = await stat(filePath);
-    const timeDifference = Date.now() - stats.birthtime.getTime();
+    const timeDifference = Date.now() - stats.mtime.getTime();
     const hoursDifference = timeDifference / (1000 * 60 * 60);
 
     return hoursDifference > 8;
