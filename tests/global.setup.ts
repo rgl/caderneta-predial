@@ -49,7 +49,7 @@ function isValidNIF(nif: string): boolean {
       return false;
   }
 
-  if (!validationSets.one.includes(nif.substr(0, 1)) && !validationSets.two.includes(nif.substr(0, 2))) {
+  if (!validationSets.one.includes(nif.substring(0, 1)) && !validationSets.two.includes(nif.substring(0, 2))) {
       return false;
   }
 
