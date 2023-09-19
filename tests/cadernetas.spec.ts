@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import { mkdir, writeFile, stat } from 'fs/promises';
+import * as he from 'he';
 import path from 'path';
 
 // The data files files will be saved in this directory.
@@ -17,6 +18,10 @@ type Predio = {
   predioId: number;
   alternateId: string;
   tipo: TipoPredio;
+  tipoDesc: string;
+  dataCaderneta: string;
+  nomeFreguesia: string;
+  pdfFilename: string;
   [key: string]: any;
 }
 
@@ -63,7 +68,8 @@ test('cadernetas', async ({ page }) => {
     }
     const predioId = predio.predioId;
     const alternateId = predio.alternateId.replace(/[^a-zA-Z0-9]+/g, "-");
-    const pdfPath = path.join(DATA_DIRECTORY_PATH, `${nif}-${alternateId}.pdf`);
+    predio.pdfFilename = `${nif}-${alternateId}.pdf`;
+    const pdfPath = path.join(DATA_DIRECTORY_PATH, predio.pdfFilename);
     if (await shouldDownload(pdfPath)) {
       let pdfUrl: string;
       switch (predio.tipo) {
@@ -84,7 +90,7 @@ test('cadernetas', async ({ page }) => {
     }
   }
 
-  // Save the data to a file.
+  // Save the data to the <nif>.json/.html files.
   await saveData({
     nif: nif,
     name: name,
@@ -149,9 +155,64 @@ async function savePdf(toPath: string, pdf: Buffer) {
   await writeFile(toPath, pdf);
 }
 
-// Save the data to the <nif>.json file.
+// Save the data to the <nif>.json/.html files.
 async function saveData(data: Data) {
   const dataPath = path.join(DATA_DIRECTORY_PATH, `${data.nif}.json`);
+  const htmlPath = path.join(DATA_DIRECTORY_PATH, `${data.nif}.html`);
   await mkdir(DATA_DIRECTORY_PATH, { recursive: true });
   await writeFile(dataPath, JSON.stringify(data, null, 2));
+  await writeFile(htmlPath, getHtml(data));
+}
+
+function getHtml(data: Data) {
+  let prediosHtml = '';
+  prediosHtml += '<table>';
+  prediosHtml += '<tr>';
+  prediosHtml += '<th>Caderneta</th>';
+  prediosHtml += '<th>Emissão</th>';
+  prediosHtml += '<th>Tipo</th>';
+  prediosHtml += '<th>Freguesia</th>';
+  prediosHtml += '</tr>';
+  for (const predio of data.predios) {
+    prediosHtml += '<tr>';
+    prediosHtml += `<td><a href="${he.encode(predio.pdfFilename)}">${he.encode(predio.alternateId)}</a></td>`;
+    prediosHtml += `<td>${he.encode(predio.dataCaderneta)}</td>`;
+    prediosHtml += `<td>${he.encode(predio.tipoDesc)}</td>`;
+    prediosHtml += `<td>${he.encode(predio.nomeFreguesia)}</td>`;
+    prediosHtml += '</tr>';
+  }
+  prediosHtml += '</table>';
+  return `<!DOCTYPE html>
+<html>
+  <head>
+    <title>${he.encode(data.name)} (${he.encode(data.nif)})</title>
+    <style>
+      body {
+        font-family: 'DejaVu Sans Mono', monospace, sans-serif;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+    
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+    
+      th {
+        background-color: #f2f2f2;
+      }
+    
+      tr:hover {
+        background-color: #e6e6e6;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>${he.encode(data.name)} (${he.encode(data.nif)})</h1>
+    ${prediosHtml}
+  </body>
+</html>
+`;
 }

@@ -33,3 +33,9 @@ Verifica que as cadernetas prediais foram descarregadas para a directoria `data`
 ```bash
 find data
 ```
+
+Abre o documento HTML:
+
+```bash
+for f in data/*.html; do xdg-open "$f"; done
+```
