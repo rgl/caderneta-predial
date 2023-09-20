@@ -1,7 +1,13 @@
 import { test as setup, expect } from '@playwright/test';
 import { STORAGE_STATE_PATH } from '../playwright.config';
+import { setupLoginMock } from './mocks';
 
 setup('login', async ({ page }) => {
+  // If this is the test NIF. Mock the service.
+  if (process.env.CADERNETA_PREDIAL_NIF == '100000002') {
+    await setupLoginMock(page);
+  }
+
   // Get the credentials from the environment.
   const nif = process.env.CADERNETA_PREDIAL_NIF;
   if (!nif) {

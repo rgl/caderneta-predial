@@ -1,5 +1,7 @@
 # Sobre
 
+[![Playwright Tests](https://github.com/rgl/caderneta-predial/actions/workflows/playwright.yml/badge.svg)](https://github.com/rgl/caderneta-predial/actions/workflows/playwright.yml)
+
 Esta aplicação descarrega todas as tuas cadernetas prediais disponíveis no [Portal das Finanças](https://imoveis.portaldasfinancas.gov.pt/matrizesinter/web/consultar-patrimonio-predial).
 
 # Uso (Ubuntu 22.04)

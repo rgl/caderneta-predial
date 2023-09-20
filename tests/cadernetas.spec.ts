@@ -2,6 +2,7 @@ import { test, expect, Page } from '@playwright/test';
 import { mkdir, writeFile, stat } from 'fs/promises';
 import * as he from 'he';
 import path from 'path';
+import { setupCadernetasMock } from './mocks';
 
 // The data files files will be saved in this directory.
 const DATA_DIRECTORY_PATH = path.join(__dirname, '../data');
@@ -29,6 +30,11 @@ type TipoPredio = "U" | "R";
 
 // Download all the cadernetas.
 test('cadernetas', async ({ page }) => {
+  // If this is the test NIF. Mock the service.
+  if (process.env.CADERNETA_PREDIAL_NIF == '100000002') {
+    await setupCadernetasMock(page);
+  }
+
   // Arm the API call response interception.
   const apiResponsePromise = page.waitForResponse('https://imoveis.portaldasfinancas.gov.pt/matrizesinter/api/patrimonio');
 
