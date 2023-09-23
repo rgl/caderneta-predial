@@ -36,6 +36,13 @@ setup('login', async ({ page }) => {
   // NB If this fails, probably, your senha (password) is incorrect. And you
   //    should double-check it before trying again. You only have about 3
   //    attempts before locking the account.
+  const errorMessage = await Promise.race([
+    page.waitForURL(PATRIMONIO_PREDIAL_URL),
+    page.locator('.error-message').innerText(),
+  ]);
+  if (errorMessage) {
+    throw `failed to login: ${errorMessage}`;
+  }
   await page.getByRole('heading', { name: 'PATRIMÓNIO PREDIAL / CADERNETAS' }).click();
   await page.getByText('Nº Contribuinte').click();
   await page.getByText(nif, { exact: true }).click();

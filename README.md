@@ -41,3 +41,15 @@ Abre o documento HTML:
 ```bash
 for f in data/*.html; do xdg-open "$f"; done
 ```
+
+# NIF de teste
+
+Para testar a página de autenticação, podes usar um dos seguintes NIF (que
+provavelmente não estão atribuídos) de teste:
+
+* `100000010`
+* `100000029`
+* `100000037`
+
+**NB** Não uses o `100000002`, pois já é usado internamente pelos testes
+unitários.
