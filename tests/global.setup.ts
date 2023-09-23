@@ -1,5 +1,6 @@
 import { test as setup, expect } from '@playwright/test';
 import { STORAGE_STATE_PATH } from '../playwright.config';
+import { PATRIMONIO_PREDIAL_URL } from './urls';
 import { setupLoginMock } from './mocks';
 
 setup('login', async ({ page }) => {
@@ -25,7 +26,7 @@ setup('login', async ({ page }) => {
   }
 
   // Do the login dance.
-  await page.goto('https://imoveis.portaldasfinancas.gov.pt/matrizesinter/web/consultar-patrimonio-predial');
+  await page.goto(PATRIMONIO_PREDIAL_URL);
   await page.getByText('NIF').click();
   await page.getByPlaceholder('Nº de Contribuinte').fill(nif);
   await page.getByPlaceholder('Senha de acesso').fill(senha);

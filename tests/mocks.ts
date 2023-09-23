@@ -1,8 +1,9 @@
 import { Page } from '@playwright/test';
+import { PATRIMONIO_PREDIAL_URL, PATRIMONIO_PREDIAL_API_URL, PATRIMONIO_PREDIAL_URBANO_PDF_BASE_URL, PATRIMONIO_PREDIAL_RUSTICO_PDF_BASE_URL } from './urls';
 import { urbanoPdf, rusticoPdf } from './pdf-mocks';
 
 export async function setupLoginMock(page: Page) {
-  await page.route('https://imoveis.portaldasfinancas.gov.pt/matrizesinter/web/consultar-patrimonio-predial', async (route) => {
+  await page.route(PATRIMONIO_PREDIAL_URL, async (route) => {
     const html = `
 <!DOCTYPE html>
 <html>
@@ -38,7 +39,7 @@ export async function setupLoginMock(page: Page) {
 }
 
 export async function setupCadernetasMock(page: Page) {
-  await page.route('https://imoveis.portaldasfinancas.gov.pt/matrizesinter/web/consultar-patrimonio-predial', async (route) => {
+  await page.route(PATRIMONIO_PREDIAL_URL, async (route) => {
     const html = `
 <!DOCTYPE html>
 <html>
@@ -55,7 +56,7 @@ export async function setupCadernetasMock(page: Page) {
     </article>
     <script>
       async function loadData() {
-        const response = await fetch('https://imoveis.portaldasfinancas.gov.pt/matrizesinter/api/patrimonio');
+        const response = await fetch(${JSON.stringify(PATRIMONIO_PREDIAL_API_URL)});
         console.log("Data API response", response); 
       }
       loadData();
@@ -68,7 +69,7 @@ export async function setupCadernetasMock(page: Page) {
       contentType: "text/html;charset=utf-8"
     });
   });
-  await page.route('https://imoveis.portaldasfinancas.gov.pt/matrizesinter/api/patrimonio', async (route) => {
+  await page.route(PATRIMONIO_PREDIAL_API_URL, async (route) => {
     const predios = [
       {
         "predioId": 1,
@@ -117,13 +118,13 @@ export async function setupCadernetasMock(page: Page) {
     ];
     await route.fulfill({ json: predios });
   });
-  await page.route('https://imoveis.portaldasfinancas.gov.pt/matrizesinter/web/caderneta/*', async (route) => {
+  await page.route(`${PATRIMONIO_PREDIAL_URBANO_PDF_BASE_URL}/*`, async (route) => {
     await route.fulfill({
       body: urbanoPdf,
       contentType: "application/pdf"
     });
   });
-  await page.route('https://imoveis.portaldasfinancas.gov.pt/matrizesinter/web/caderneta-rustica/*', async (route) => {
+  await page.route(`${PATRIMONIO_PREDIAL_RUSTICO_PDF_BASE_URL}/*`, async (route) => {
     await route.fulfill({
       body: rusticoPdf,
       contentType: "application/pdf"

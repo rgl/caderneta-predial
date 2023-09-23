@@ -2,6 +2,7 @@ import { test, expect, Page } from '@playwright/test';
 import { mkdir, writeFile, stat } from 'fs/promises';
 import * as he from 'he';
 import path from 'path';
+import { PATRIMONIO_PREDIAL_URL, PATRIMONIO_PREDIAL_API_URL, PATRIMONIO_PREDIAL_URBANO_PDF_BASE_URL, PATRIMONIO_PREDIAL_RUSTICO_PDF_BASE_URL } from './urls';
 import { setupCadernetasMock } from './mocks';
 
 // The data files files will be saved in this directory.
@@ -36,10 +37,10 @@ test('cadernetas', async ({ page }) => {
   }
 
   // Arm the API call response interception.
-  const apiResponsePromise = page.waitForResponse('https://imoveis.portaldasfinancas.gov.pt/matrizesinter/api/patrimonio');
+  const apiResponsePromise = page.waitForResponse(PATRIMONIO_PREDIAL_API_URL);
 
   // Go to the patrimonio predial page.
-  await page.goto('https://imoveis.portaldasfinancas.gov.pt/matrizesinter/web/consultar-patrimonio-predial');
+  await page.goto(PATRIMONIO_PREDIAL_URL);
   await page.getByText('Nº Prédios').click();
   await page.getByText('Valor Património').click();
 
@@ -80,10 +81,10 @@ test('cadernetas', async ({ page }) => {
       let pdfUrl: string;
       switch (predio.tipo) {
         case "U":
-          pdfUrl = `https://imoveis.portaldasfinancas.gov.pt/matrizesinter/web/caderneta/${predioId}`;
+          pdfUrl = `${PATRIMONIO_PREDIAL_URBANO_PDF_BASE_URL}/${predioId}`;
           break;
         case "R":
-          pdfUrl = `https://imoveis.portaldasfinancas.gov.pt/matrizesinter/web/caderneta-rustica/${predioId}`;
+          pdfUrl = `${PATRIMONIO_PREDIAL_RUSTICO_PDF_BASE_URL}/${predioId}`;
           break;
         default:
           throw `predio ${alternateId} has unknown tipo ${predio.tipo}`;
