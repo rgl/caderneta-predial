@@ -4,6 +4,7 @@
   "description": "Descarrega todas as tuas cadernetas prediais disponíveis no Portal das Finanças.",
   "scripts": {
     "test": "npx playwright test",
+    "testHeaded": "npx playwright test --headed",
     "testUi": "npx playwright test --ui"
   },
   "repository": {
