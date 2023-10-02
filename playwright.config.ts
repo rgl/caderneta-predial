@@ -26,6 +26,8 @@ export default defineConfig({
     // Collect trace when retrying the failed test.
     // See https://playwright.dev/docs/trace-viewer.
     trace: 'on-first-retry',
+    // Use the same browser in all the projects.
+    ...devices['Desktop Chrome'],
   },
   projects: [
     {
@@ -36,7 +38,6 @@ export default defineConfig({
       name: 'chromium',
       dependencies: ['setup'],
       use: {
-        ...devices['Desktop Chrome'],
         storageState: STORAGE_STATE_PATH,
       },
     },
