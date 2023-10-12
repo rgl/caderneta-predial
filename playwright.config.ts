@@ -28,6 +28,8 @@ export default defineConfig({
     // Always collect traces.
     // See https://playwright.dev/docs/trace-viewer.
     trace: 'on',
+    // Set the viewport size.
+    viewport: { width: 1024, height: 768 },
   },
   projects: [
     {
