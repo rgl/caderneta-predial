@@ -30,6 +30,9 @@ export default defineConfig({
     trace: 'on',
     // Set the viewport size.
     viewport: { width: 1024, height: 768 },
+    // Always collect videos.
+    // see https://playwright.dev/docs/videos.
+    video: { mode: 'on', size: { width: 1024, height: 768 } },
   },
   projects: [
     {
