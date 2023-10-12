@@ -22,6 +22,8 @@ export default defineConfig({
   reporter: [
     process.env.CI ? ['github'] : ['list'],
     ['html', { open: 'never' }],
+    ['json', { outputFile: 'test-results.json' }],
+    ['junit', { outputFile: 'test-results.xml' }],
   ],
   // Shared settings for all the projects below.
   // See https://playwright.dev/docs/api/class-testoptions.
