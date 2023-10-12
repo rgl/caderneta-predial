@@ -35,7 +35,7 @@ export default defineConfig({
       testMatch: 'global.setup.ts',
     },
     {
-      name: 'chromium',
+      name: 'cadernetas',
       dependencies: ['setup'],
       use: {
         storageState: STORAGE_STATE_PATH,
