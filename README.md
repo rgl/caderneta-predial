@@ -12,7 +12,7 @@ Instala as dependencias:
 
 ```bash
 npm ci
-npx playwright install
+npx playwright install --with-deps chromium
 ```
 
 Configura as tuas credenciais de acesso ao Portal das Finanças:
