@@ -173,22 +173,22 @@ async function saveData(data: Data) {
 
 function getHtml(data: Data) {
   let prediosHtml = '';
-  prediosHtml += '<table>';
-  prediosHtml += '<tr>';
-  prediosHtml += '<th>Caderneta</th>';
-  prediosHtml += '<th>Emissão</th>';
-  prediosHtml += '<th>Tipo</th>';
-  prediosHtml += '<th>Freguesia</th>';
-  prediosHtml += '</tr>';
+  prediosHtml += '<table>\n';
+  prediosHtml += '  <tr>\n';
+  prediosHtml += '    <th>Caderneta</th>\n';
+  prediosHtml += '    <th>Emissão</th>\n';
+  prediosHtml += '    <th>Tipo</th>\n';
+  prediosHtml += '    <th>Freguesia</th>\n';
+  prediosHtml += '  </tr>\n';
   for (const predio of data.predios) {
-    prediosHtml += '<tr>';
-    prediosHtml += `<td><a href="${he.encode(predio.pdfFilename)}">${he.encode(predio.alternateId)}</a></td>`;
-    prediosHtml += `<td>${he.encode(predio.dataCaderneta)}</td>`;
-    prediosHtml += `<td>${he.encode(predio.tipoDesc)}</td>`;
-    prediosHtml += `<td>${he.encode(toTitleCase(predio.nomeFreguesia))}</td>`;
-    prediosHtml += '</tr>';
+    prediosHtml += '  <tr>\n';
+    prediosHtml += `    <td><a href="${he.encode(predio.pdfFilename)}">${he.encode(predio.alternateId)}</a></td>\n`;
+    prediosHtml += `    <td>${he.encode(predio.dataCaderneta)}</td>\n`;
+    prediosHtml += `    <td>${he.encode(predio.tipoDesc)}</td>\n`;
+    prediosHtml += `    <td>${he.encode(toTitleCase(predio.nomeFreguesia))}</td>\n`;
+    prediosHtml += '  </tr>\n';
   }
-  prediosHtml += '</table>';
+  prediosHtml += '</table>\n';
   return `<!DOCTYPE html>
 <html>
   <head>
@@ -201,16 +201,16 @@ function getHtml(data: Data) {
       table {
         border-collapse: collapse;
       }
-    
+
       th, td {
         border: 1px solid #ddd;
         padding: 8px;
       }
-    
+
       th {
         background-color: #f2f2f2;
       }
-    
+
       tr:hover {
         background-color: #e6e6e6;
       }
@@ -218,7 +218,7 @@ function getHtml(data: Data) {
   </head>
   <body>
     <h1>${he.encode(toTitleCase(data.name))} (${he.encode(data.nif)})</h1>
-    ${prediosHtml}
+    ${prediosHtml.replace(/^/gm, '    ').trim()}
   </body>
 </html>
 `;
