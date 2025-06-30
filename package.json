@@ -22,12 +22,12 @@
   },
   "homepage": "https://github.com/rgl/caderneta-predial#readme",
   "devDependencies": {
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.53.1",
     "@types/he": "^1.2.3",
-    "@types/node": "^22.14.1"
+    "@types/node": "^24.0.7"
   },
   "dependencies": {
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.0.0",
     "he": "^1.2.0"
   }
 }
