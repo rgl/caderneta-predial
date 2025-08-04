@@ -27,21 +27,28 @@ setup('login', async ({ page }) => {
 
   // Do the login dance.
   await page.goto(PATRIMONIO_PREDIAL_URL);
-  await page.getByText('NIF').click();
-  await page.getByPlaceholder('Nº de Contribuinte').fill(nif);
-  await page.getByPlaceholder('Senha de acesso').fill(senha);
+  await page.getByRole('tab', { name: 'NIF' }).click();
+  await page.getByRole('textbox', { name: 'Número de Contribuinte' }).fill(nif);
+  await page.getByRole('textbox', { name: 'Senha de Acesso' }).fill(senha);
   await page.getByRole('button', { name: 'Autenticar' }).click();
 
   // Ensure we ended up at the expected page.
   // NB If this fails, probably, your senha (password) is incorrect. And you
   //    should double-check it before trying again. You only have about 3
   //    attempts before locking the account.
-  const errorMessage = await Promise.race([
+  const result = await Promise.race([
     page.waitForURL(PATRIMONIO_PREDIAL_URL),
-    page.locator('.error-message').innerText(),
+    page.locator('.at-ui-toast').innerText().then(text => ['error', text]),
+    page.getByRole('textbox', { name: 'Código SMS' }).innerText().then(_ => ['sms']),
   ]);
-  if (errorMessage) {
-    throw `failed to login: ${errorMessage}`;
+  if (typeof result === 'object') {
+    if (result[0] === 'error') {
+      throw `failed to login: ${result[1]}`;
+    }
+    if (result[0] === 'sms') {
+      throw 'login succeeded, but second factor authentication is required and we do not support it';
+    }
+    throw `failed to login: ${result}`;
   }
   await page.getByRole('heading', { name: 'PATRIMÓNIO PREDIAL / CADERNETAS' }).click();
   await page.getByText('Nº Contribuinte').click();

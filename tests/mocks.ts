@@ -10,15 +10,17 @@ export async function setupLoginMock(page: Page) {
   <body>
     <article>
       <h1>Login Page</h1>
-      <p><span>NIF</span></p>
-      <form name="loginForm" id="loginForm" action="" method="POST" style="" autocomplete="off" novalidate="novalidate">
+      <div role="tablist">
+        <p role="tab">NIF</p>
+      </div>
+      <form name="loginForm" id="loginForm" action="" method="POST" style="" autocomplete="off" novalidate="novalidate" role="tabpanel">
         <div id="input-username-nif-group">
-          <label for="username">Nº de Contribuinte</label>
+          <label for="username">Número de Contribuinte</label>
           <input type="text" name="username" id="username" title="Insira um N° de Contribuinte válido" placeholder="Nº de Contribuinte" pattern="[0-9/]{9,14}" required="" autofocus="autofocus" aria-required="true">
         </div>
         <div id="input-password-nif-group">
-          <label for="password">Senha de acesso</label>
-          <input type="password" name="password" spellcheck="false" title="Campo Obrigatório" id="password-nif" required="" placeholder="Senha de acesso" autofocus="autofocus" aria-required="true">
+          <label for="password">Senha de Acesso</label>
+          <input type="password" name="password" id="password" spellcheck="false" title="Campo Obrigatório" id="password-nif" required="" placeholder="Senha de Acesso" autofocus="autofocus" aria-required="true">
         </div>
         <button type="submit" value="Entrar">Autenticar</button>
       </form>

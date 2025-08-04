@@ -27,6 +27,7 @@ EOF
 Executa a aplicação:
 
 ```bash
+rm -f .auth.json
 npm run test
 ```
 
